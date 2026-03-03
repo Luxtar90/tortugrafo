@@ -31,6 +31,11 @@ export const metadata: Metadata = {
   title: "Tortugrafo | Portafolio",
   description:
     "Dirección visual, fotografía y producción audiovisual orientada a resultados.",
+  icons: {
+    icon: "/LOGO%20Y%20TIPOGRAFIA/LOGO-WEB.png",
+    shortcut: "/LOGO%20Y%20TIPOGRAFIA/LOGO-WEB.png",
+    apple: "/LOGO%20Y%20TIPOGRAFIA/LOGO-WEB.png",
+  },
 };
 
 export default function RootLayout({

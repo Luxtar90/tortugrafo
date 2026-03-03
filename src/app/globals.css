@@ -63,3 +63,98 @@ h1, h2, h3 {
   font-family: var(--font-brand), var(--font-geist-sans), Arial, Helvetica, sans-serif;
   letter-spacing: .5px;
 }
+
+@keyframes heroFadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroSoftPulse {
+  0%, 100% {
+    opacity: 0.32;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.48;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes heroFloat {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -8px, 0);
+  }
+}
+
+.hero-enter {
+  opacity: 0;
+  animation: heroFadeUp .75s cubic-bezier(.21,.73,.26,1) forwards;
+}
+
+.hero-enter-delay-1 {
+  animation-delay: .1s;
+}
+
+.hero-enter-delay-2 {
+  animation-delay: .2s;
+}
+
+.hero-enter-delay-3 {
+  animation-delay: .3s;
+}
+
+.hero-enter-delay-4 {
+  animation-delay: .4s;
+}
+
+.hero-pulse {
+  animation: heroSoftPulse 5s ease-in-out infinite;
+}
+
+.hero-float {
+  animation: heroFloat 4.2s ease-in-out infinite;
+}
+
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(24px) scale(0.985);
+  filter: blur(8px);
+  transition:
+    opacity .75s cubic-bezier(.21,.73,.26,1),
+    transform .75s cubic-bezier(.21,.73,.26,1),
+    filter .75s cubic-bezier(.21,.73,.26,1);
+  will-change: opacity, transform, filter;
+}
+
+.scroll-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-enter,
+  .hero-enter-delay-1,
+  .hero-enter-delay-2,
+  .hero-enter-delay-3,
+  .hero-enter-delay-4,
+  .hero-pulse,
+  .hero-float,
+  .scroll-reveal,
+  .scroll-reveal.is-visible {
+    animation: none;
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+}

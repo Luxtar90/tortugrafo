@@ -42,10 +42,10 @@ export default function Navbar() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`pb-1 text-sm font-semibold uppercase tracking-[0.22em] [font-family:var(--font-secondary)] transition ${
+                className={`relative pb-1 text-sm font-semibold uppercase tracking-[0.22em] [font-family:var(--font-secondary)] transition duration-300 after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-full after:origin-left after:transition-transform after:duration-300 ${
                   isActive
-                    ? "border-b border-secondary text-secondary"
-                    : "border-b border-transparent text-foreground/82 hover:text-secondary"
+                    ? "text-secondary after:scale-x-100 after:bg-secondary"
+                    : "text-foreground/82 after:scale-x-0 after:bg-secondary/90 hover:text-secondary hover:after:scale-x-100"
                 }`}
               >
                 {item.label}
@@ -75,10 +75,10 @@ export default function Navbar() {
                   key={item.href}
                   href={item.href}
                   onClick={() => setOpen(false)}
-                  className={`flex items-center gap-2 rounded-md px-2 py-2 text-sm font-semibold uppercase tracking-[0.2em] [font-family:var(--font-secondary)] transition ${
+                  className={`flex items-center gap-2 rounded-md px-2 py-2 text-sm font-semibold uppercase tracking-[0.2em] [font-family:var(--font-secondary)] transition duration-300 ${
                     isActive
                       ? "bg-primary/20 text-secondary"
-                      : "text-foreground/85 hover:bg-muted/70 hover:text-secondary"
+                      : "text-foreground/85 hover:translate-x-1 hover:bg-muted/70 hover:text-secondary"
                   }`}
                 >
                   <FontAwesomeIcon icon={item.icon} className="h-4 w-4" />

@@ -63,44 +63,48 @@ export default function Hero() {
         alt="Hero"
         className="absolute inset-0 h-full w-full object-cover object-[50%_72%] md:object-[50%_80%]"
       />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_25%,rgba(76,173,111,0.3)_0%,rgba(9,19,15,0.12)_38%,rgba(6,12,10,0.72)_100%)]" />
+      <div className="hero-pulse absolute inset-0 bg-[radial-gradient(circle_at_18%_25%,rgba(76,173,111,0.3)_0%,rgba(9,19,15,0.12)_38%,rgba(6,12,10,0.72)_100%)]" />
       <div className="absolute inset-0 bg-gradient-to-r from-background/92 via-background/65 to-background/28 md:from-background/88 md:via-background/56 md:to-transparent" />
+      <div className="hero-float absolute left-[14%] top-[16%] h-24 w-24 rounded-full bg-primary/18 blur-2xl" />
+      <div className="hero-float absolute bottom-[14%] right-[12%] h-32 w-32 rounded-full bg-secondary/10 blur-3xl [animation-delay:.5s]" />
       <div className="absolute inset-0 z-20 flex items-end pb-8 pt-24 md:items-center md:pb-0 md:pt-0">
         <div className="mx-auto w-full max-w-7xl px-4 md:px-8">
-          <div className="max-w-3xl rounded-2xl border border-primary/30 bg-[linear-gradient(180deg,rgba(10,26,19,0.78),rgba(8,19,15,0.58))] p-5 shadow-[0_24px_60px_rgba(0,0,0,0.35)] backdrop-blur-sm md:p-7">
-            <span className="inline-flex items-center rounded-full border border-secondary/35 bg-secondary/10 px-3 py-1 text-[10px] uppercase tracking-[0.22em] text-secondary">
+          <div className="max-w-3xl rounded-2xl border border-primary/30 bg-[linear-gradient(180deg,rgba(10,26,19,0.78),rgba(8,19,15,0.58))] p-5 shadow-[0_24px_60px_rgba(0,0,0,0.35)] backdrop-blur-sm md:p-7 hero-enter">
+            <span className="hero-enter hero-enter-delay-1 inline-flex items-center rounded-full border border-secondary/35 bg-secondary/10 px-3 py-1 text-[10px] uppercase tracking-[0.22em] text-secondary">
               Portafolio creativo
             </span>
-            <h1 className="mt-3 text-5xl leading-[0.88] sm:text-7xl">Tortugrafo</h1>
-            <p className="mt-4 max-w-2xl text-base leading-relaxed text-foreground/90 md:text-[1.08rem]">
+            <h1 className="hero-enter hero-enter-delay-1 mt-3 text-4xl leading-[0.9] sm:text-7xl">
+              Tortugrafo
+            </h1>
+            <p className="hero-enter hero-enter-delay-2 mt-4 max-w-2xl text-base leading-relaxed text-foreground/90 md:text-[1.08rem]">
               Dirección visual, fotografía y producción audiovisual con enfoque
               estratégico en comunicación de marca.
             </p>
-            <div className="mt-4 flex flex-wrap gap-2.5 text-xs uppercase tracking-[0.18em] text-foreground/82">
-              <span className="inline-flex items-center gap-2 rounded-full border border-border/80 bg-background/35 px-3 py-1.5">
+            <div className="hero-enter hero-enter-delay-3 mt-4 flex flex-wrap gap-2.5 text-xs uppercase tracking-[0.18em] text-foreground/82">
+              <span className="inline-flex items-center gap-2 rounded-full border border-border/80 bg-background/35 px-3 py-1.5 transition duration-300 hover:-translate-y-0.5 hover:border-secondary/55 hover:bg-secondary/10">
                 <FontAwesomeIcon icon={faClapperboard} className="h-3.5 w-3.5 text-secondary" />
                 Producción
               </span>
-              <span className="inline-flex items-center gap-2 rounded-full border border-border/80 bg-background/35 px-3 py-1.5">
+              <span className="inline-flex items-center gap-2 rounded-full border border-border/80 bg-background/35 px-3 py-1.5 transition duration-300 hover:-translate-y-0.5 hover:border-secondary/55 hover:bg-secondary/10">
                 <FontAwesomeIcon icon={faCamera} className="h-3.5 w-3.5 text-secondary" />
                 Fotografía
               </span>
-              <span className="inline-flex items-center gap-2 rounded-full border border-border/80 bg-background/35 px-3 py-1.5">
+              <span className="inline-flex items-center gap-2 rounded-full border border-border/80 bg-background/35 px-3 py-1.5 transition duration-300 hover:-translate-y-0.5 hover:border-secondary/55 hover:bg-secondary/10">
                 <FontAwesomeIcon icon={faPenNib} className="h-3.5 w-3.5 text-secondary" />
                 Diseño
               </span>
             </div>
-            <div className="mt-6 flex flex-wrap gap-3">
+            <div className="hero-enter hero-enter-delay-4 mt-6 flex flex-wrap gap-3">
               <Link
                 href="/projects"
-                className="inline-flex items-center gap-2 rounded-lg border border-primary/70 bg-primary px-5 py-2.5 text-sm font-semibold uppercase tracking-[0.14em] text-primary-foreground transition hover:-translate-y-0.5 hover:opacity-95"
+                className="inline-flex items-center gap-2 rounded-lg border border-primary/70 bg-primary px-5 py-2.5 text-sm font-semibold uppercase tracking-[0.14em] text-primary-foreground transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_30px_rgba(31,107,74,0.4)]"
               >
                 Ver proyectos
                 <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="h-3.5 w-3.5" />
               </Link>
               <Link
                 href="/about"
-                className="inline-flex items-center gap-2 rounded-lg border border-border/90 bg-background/45 px-5 py-2.5 text-sm font-semibold uppercase tracking-[0.14em] text-foreground/95 transition hover:-translate-y-0.5 hover:border-secondary/70 hover:text-secondary"
+                className="inline-flex items-center gap-2 rounded-lg border border-border/90 bg-background/45 px-5 py-2.5 text-sm font-semibold uppercase tracking-[0.14em] text-foreground/95 transition duration-300 hover:-translate-y-0.5 hover:border-secondary/70 hover:bg-secondary/10 hover:text-secondary"
               >
                 Sobre mí
               </Link>
@@ -108,7 +112,7 @@ export default function Hero() {
           </div>
         </div>
       </div>
-      <div className="absolute bottom-6 right-4 z-30 rounded-full border border-border/75 bg-card/70 px-4 py-1 text-[10px] uppercase tracking-[0.24em] text-secondary backdrop-blur-md md:bottom-8 md:right-10">
+      <div className="hero-enter hero-enter-delay-4 hero-pulse absolute bottom-6 right-4 z-30 rounded-full border border-border/75 bg-card/70 px-4 py-1 text-[10px] uppercase tracking-[0.24em] text-secondary backdrop-blur-md md:bottom-8 md:right-10">
         Director visual
       </div>
     </section>

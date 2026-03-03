@@ -142,6 +142,7 @@ export default function ProjectSectionCarousel({
   };
 
   useEffect(() => {
+    if (typeof window !== "undefined" && window.innerWidth < 1024) return;
     if (!availableSections.length) return;
     const observer = new IntersectionObserver(
       (entries) => {
@@ -173,6 +174,7 @@ export default function ProjectSectionCarousel({
   }, [availableSections]);
 
   useEffect(() => {
+    if (typeof window !== "undefined" && window.innerWidth < 1024) return;
     if (!availableSections.length) return;
 
     let rafId = 0;
@@ -211,29 +213,15 @@ export default function ProjectSectionCarousel({
     };
   }, [availableSections]);
 
-  const handleTimelineSelect = (sectionName: string) => {
-    setActiveSection(sectionName);
-    const target = timelineRefs.current[sectionName];
-    if (target) {
-      target.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
-  };
-
-  useEffect(() => {
-    if (paused || totalSlides <= 1 || currentIsVideo) return;
-    const timer = setInterval(() => {
-      setIndexesBySection((old) => ({
-        ...old,
-        [currentSection.section]: ((old[currentSection.section] ?? 0) + 1) % totalSlides,
-      }));
-    }, 4500);
-    return () => clearInterval(timer);
-  }, [paused, currentIsVideo, currentSection, totalSlides]);
-
   useEffect(() => {
     if (!availableSections.length || !activeSection) return;
 
     const syncPreviewOffset = () => {
+      if (window.innerWidth < 1024) {
+        setPreviewOffset(0);
+        return;
+      }
+
       const firstSection = timelineRefs.current[availableSections[0].section];
       const activeSectionElement = timelineRefs.current[activeSection];
       if (!firstSection || !activeSectionElement) {
@@ -259,6 +247,26 @@ export default function ProjectSectionCarousel({
     };
   }, [activeSection, availableSections]);
 
+  const handleTimelineSelect = (sectionName: string) => {
+    setActiveSection(sectionName);
+    if (typeof window !== "undefined" && window.innerWidth < 1024) return;
+    const target = timelineRefs.current[sectionName];
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  };
+
+  useEffect(() => {
+    if (paused || totalSlides <= 1 || currentIsVideo) return;
+    const timer = setInterval(() => {
+      setIndexesBySection((old) => ({
+        ...old,
+        [currentSection.section]: ((old[currentSection.section] ?? 0) + 1) % totalSlides,
+      }));
+    }, 4500);
+    return () => clearInterval(timer);
+  }, [paused, currentIsVideo, currentSection, totalSlides]);
+
   const handleParallaxMove = (event: React.MouseEvent<HTMLDivElement>) => {
     const viewport = viewportRef.current;
     if (!viewport) return;
@@ -282,9 +290,9 @@ export default function ProjectSectionCarousel({
 
   return (
     <div
-      className="rounded-2xl border border-border bg-[linear-gradient(180deg,rgba(14,33,26,0.92),rgba(10,24,18,0.95))] p-3 md:p-5"
+      className="overflow-hidden rounded-2xl border border-border bg-[linear-gradient(180deg,rgba(14,33,26,0.92),rgba(10,24,18,0.95))] p-3 md:p-5"
     >
-      <div className="mb-4 flex flex-wrap gap-2 rounded-xl border border-border/70 bg-background/25 p-2.5">
+      <div className="mb-4 flex gap-2 overflow-x-auto rounded-xl border border-border/70 bg-background/25 p-2.5 sm:flex-wrap">
         {availableSections.map((sectionGroup) => {
           const isActive = sectionGroup.section === currentSection.section;
           return (
@@ -292,7 +300,7 @@ export default function ProjectSectionCarousel({
               key={sectionGroup.section}
               type="button"
               onClick={() => handleTimelineSelect(sectionGroup.section)}
-              className={`group inline-flex items-center gap-2 rounded-full border px-3.5 py-2 text-[11px] font-semibold tracking-[0.06em] [font-family:var(--font-secondary)] transition ${
+              className={`group inline-flex shrink-0 items-center gap-2 rounded-full border px-3 py-2 text-[11px] font-semibold tracking-[0.06em] [font-family:var(--font-secondary)] transition sm:px-3.5 ${
                 isActive
                   ? "border-secondary/70 bg-secondary/12 text-secondary shadow-[0_6px_16px_rgba(8,22,16,0.45)]"
                   : "border-border/70 bg-background/50 text-foreground/92 hover:border-primary/60 hover:bg-background/80"
@@ -316,8 +324,8 @@ export default function ProjectSectionCarousel({
           );
         })}
       </div>
-      <div className="grid gap-6 lg:grid-cols-[0.7fr_1.3fr]">
-        <div className="relative">
+      <div className="grid gap-4 lg:grid-cols-[0.7fr_1.3fr] lg:gap-6">
+        <div className="relative hidden lg:block">
           <div className="absolute bottom-0 left-3 top-1 w-px bg-border/60" />
           <div className="space-y-6">
             {availableSections.map((sectionGroup, timelineIndex) => {
@@ -362,18 +370,30 @@ export default function ProjectSectionCarousel({
             })}
           </div>
         </div>
-        <div className="relative" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
+        <div className="relative min-w-0" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
           <div
-            className="transition-[margin] duration-500 ease-out"
+            className="lg:transition-[margin] lg:duration-500 lg:ease-out"
             style={{ marginTop: `${previewOffset}px` }}
           >
+          <div className="mb-3 rounded-xl border border-primary/25 bg-card/85 px-3 py-3 lg:hidden">
+            <p className="text-[11px] uppercase tracking-[0.18em] text-foreground/60">
+              Empresa activa
+            </p>
+            <h3 className="mt-1 truncate text-lg uppercase">{currentSection.section}</h3>
+            <p className="mt-2 text-sm leading-relaxed text-foreground/80">
+              {getSectionMeaning(currentSection.section)}
+            </p>
+            <p className="mt-2 text-[11px] uppercase tracking-[0.18em] text-secondary">
+              {currentSection.images.length} piezas
+            </p>
+          </div>
           <div className="mb-3 rounded-xl border border-border/70 bg-background/35 px-3 py-2.5">
             <div className="flex items-center justify-between gap-3">
-              <div>
+              <div className="min-w-0">
                 <p className="text-[11px] uppercase tracking-[0.18em] text-foreground/60">
                   Proyecto activo
                 </p>
-                <h3 className="mt-1 text-lg uppercase">{currentSection.section}</h3>
+                <h3 className="mt-1 truncate text-base uppercase md:text-lg">{currentSection.section}</h3>
               </div>
               <span className="text-[11px] uppercase tracking-[0.18em] text-secondary">
                 {safeIndex + 1}/{activeImages.length}
@@ -400,7 +420,7 @@ export default function ProjectSectionCarousel({
               {activeImages.map((imagePath) => (
                 <div
                   key={`${currentSection.section}-${imagePath}`}
-                  className="relative h-[45vh] min-h-[280px] w-full shrink-0 p-3 md:h-[58vh]"
+                  className="relative h-[58vw] min-h-[210px] max-h-[320px] w-full shrink-0 p-2 md:h-[58vh] md:min-h-[280px] md:max-h-none md:p-3"
                 >
                   <div className="relative h-full w-full overflow-hidden rounded-2xl border border-border/70 bg-background/35 shadow-[0_24px_60px_rgba(0,0,0,0.55)] transition-transform duration-300 ease-out [transform:translate3d(calc(var(--parallax-x,0px)*-0.28),calc(var(--parallax-y,0px)*-0.28),0)]">
                     {isVideoPath(imagePath) ? (
@@ -429,7 +449,7 @@ export default function ProjectSectionCarousel({
                 <button
                   type="button"
                   onClick={() => goPrevForSection(currentSection.section, totalSlides)}
-                  className="absolute left-3 top-1/2 z-20 -translate-y-1/2 rounded-full border border-border bg-background/70 p-3 backdrop-blur-md transition hover:scale-105 hover:bg-background"
+                  className="absolute left-2 top-1/2 z-20 -translate-y-1/2 rounded-full border border-border bg-background/70 p-2.5 backdrop-blur-md transition hover:scale-105 hover:bg-background md:left-3 md:p-3"
                   aria-label="Anterior"
                 >
                   <FontAwesomeIcon icon={faChevronLeft} className="h-5 w-5" />
@@ -437,7 +457,7 @@ export default function ProjectSectionCarousel({
                 <button
                   type="button"
                   onClick={() => goNextForSection(currentSection.section, totalSlides)}
-                  className="absolute right-3 top-1/2 z-20 -translate-y-1/2 rounded-full border border-border bg-background/70 p-3 backdrop-blur-md transition hover:scale-105 hover:bg-background"
+                  className="absolute right-2 top-1/2 z-20 -translate-y-1/2 rounded-full border border-border bg-background/70 p-2.5 backdrop-blur-md transition hover:scale-105 hover:bg-background md:right-3 md:p-3"
                   aria-label="Siguiente"
                 >
                   <FontAwesomeIcon icon={faChevronRight} className="h-5 w-5" />
@@ -445,7 +465,7 @@ export default function ProjectSectionCarousel({
               </>
             )}
           </div>
-          <div className="mt-3 grid grid-cols-2 gap-2 md:grid-cols-4">
+          <div className="mt-3 flex gap-2 overflow-x-auto pb-1 md:grid md:grid-cols-4">
             {activeImages.map((imagePath, imageIndex) => {
               const isActive = imageIndex === safeIndex;
               return (
@@ -458,7 +478,7 @@ export default function ProjectSectionCarousel({
                       [currentSection.section]: imageIndex,
                     }))
                   }
-                  className={`group relative h-20 overflow-hidden rounded-lg border transition md:h-24 ${
+                  className={`group relative h-16 w-24 shrink-0 overflow-hidden rounded-lg border transition md:h-24 md:w-auto ${
                     isActive
                       ? "border-secondary ring-1 ring-secondary/70"
                       : "border-border/70 hover:border-secondary/50"
@@ -498,7 +518,7 @@ export default function ProjectSectionCarousel({
             })}
           </div>
           <div className="mt-3 flex items-center justify-between gap-3 rounded-lg border border-border/70 bg-background/35 px-3 py-2">
-            <p className="line-clamp-1 text-[11px] uppercase tracking-wide text-foreground/75">
+            <p className="truncate text-[11px] uppercase tracking-wide text-foreground/75">
               {formatLabelFromPath(currentImage)}
             </p>
             <span className="text-[11px] uppercase tracking-[0.18em] text-secondary">
