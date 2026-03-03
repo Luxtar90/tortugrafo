@@ -1,45 +1,47 @@
-import { readdir } from "node:fs/promises";
-import path from "node:path";
-
-const IMAGE_EXTENSIONS = new Set([
-  ".png",
-  ".jpg",
-  ".jpeg",
-  ".webp",
-  ".gif",
-  ".avif",
-]);
-const VIDEO_EXTENSIONS = new Set([".mp4", ".webm", ".mov", ".m4v"]);
-const MEDIA_EXTENSIONS = new Set([...IMAGE_EXTENSIONS, ...VIDEO_EXTENSIONS]);
-
-async function walk(dir: string): Promise<string[]> {
-  const entries = await readdir(dir, { withFileTypes: true });
-  const files = await Promise.all(
-    entries.map(async (entry) => {
-      const fullPath = path.join(dir, entry.name);
-      if (entry.isDirectory()) {
-        return walk(fullPath);
-      }
-      return [fullPath];
-    })
-  );
-  return files.flat();
-}
+const PUBLIC_MEDIA_PATHS = [
+  "/CINEMARK/Insight.png",
+  "/CINEMARK/Insight (1).png",
+  "/CINEMARK/Insight (2).png",
+  "/CINEMARK/Insight (3).png",
+  "/CINEMARK/Insight (4).png",
+  "/CINEMARK/Insight (5).png",
+  "/CINEMARK/LOGO/CINEMARK-1949721778.jpg",
+  "/IMAGENES EXTRA/Presentación - Toyota Supra MK5.png",
+  "/IMAGENES EXTRA/retouch_2026030213415598.jpg.jpeg",
+  "/LOGO Y TIPOGRAFIA/COLOR.png",
+  "/LOGO Y TIPOGRAFIA/LOGO-WEB.png",
+  "/MONSTER/AGENCIA MORPHO.png",
+  "/MONSTER/AGENCIA MORPHO (1).png",
+  "/MONSTER/AGENCIA MORPHO (2).png",
+  "/MONSTER/LOGO/images (3).png",
+  "/REMAX/1000710039.mp4",
+  "/REMAX/1000710040.mp4",
+  "/REMAX/1000710041.mp4",
+  "/REMAX/1000710042.mp4",
+  "/REMAX/1000710058.mp4",
+  "/REMAX/1000710059.mp4",
+  "/REMAX/ANNELISSE CUELLAR (1).png",
+  "/REMAX/Arte 1.png",
+  "/REMAX/Copia de ARTE DE PERFILES.png",
+  "/REMAX/Elffy Laruta.png",
+  "/REMAX/LUNES POR LA TARDE.mp4",
+  "/REMAX/PERFILES.png",
+  "/REMAX/PORTADAS.png",
+  "/REMAX/LOGO/plus.png",
+  "/SPRITE/propuesta para perfume sprite.png",
+  "/SPRITE/propuesta para perfume sprite (1).png",
+  "/SPRITE/propuesta para perfume sprite (2).png",
+  "/SPRITE/propuesta para perfume sprite (3).png",
+  "/SPRITE/propuesta para perfume sprite (4).png",
+  "/SPRITE/propuesta para perfume sprite (5).png",
+  "/SPRITE/LOGO/14847430454dcd39a77c7579c763a31d.jpg",
+  "/VIDEOS/CONVERSE/cine negro.version 36seg.mp4",
+  "/VIDEOS/CORTOMETRAJE/POSTER Y VIDEO FONDO/regresa (1).png",
+  "/pexels-luisdelrio-15286.jpg",
+];
 
 export async function getPublicImages(): Promise<string[]> {
-  const publicDir = path.join(process.cwd(), "public");
-  const allFiles = await walk(publicDir);
-
-  return allFiles
-    .filter((file) => MEDIA_EXTENSIONS.has(path.extname(file).toLowerCase()))
-    .map((file) =>
-      file
-        .replace(publicDir, "")
-        .split(path.sep)
-        .join("/")
-    )
-    .filter((file) => file.length > 0)
-    .map((file) => (file.startsWith("/") ? file : `/${file}`))
+  return [...PUBLIC_MEDIA_PATHS]
     .sort((a, b) => a.localeCompare(b));
 }
 
